@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0c0918">
+<meta name="description" content="NovaLab Portfolio Builder – gestalte kostenlos dein eigenes professionelles Portfolio, lokal und ohne Registrierung.">
+<title>NovaLab Portfolio Builder · Create your space</title>
+<link rel="stylesheet" href="./styles.css">
+<script src="./app.js" defer></script>
+</head>
+<body>
+<div id="app" class="app-shell">
+  <aside class="sidebar" id="sidebar">
+    <a class="brand" href="#home"><span class="brand-icon">N</span><span><strong>NovaLab</strong><small>PORTFOLIO BUILDER</small></span></a>
+    <div class="side-label">WORKSPACE</div>
+    <button class="nav-item active" data-page="home"><span>⌂</span> Übersicht</button>
+    <button class="nav-item" data-page="projects"><span>▦</span> Meine Portfolios</button>
+    <button class="nav-item" data-page="templates"><span>✦</span> Vorlagen</button>
+    <div class="side-label">DESIGN & HILFE</div>
+    <button class="nav-item" data-page="editor"><span>◈</span> Portfolio-Editor</button>
+    <button class="nav-item" data-page="settings"><span>⚙</span> Einstellungen</button>
+    <button class="nav-item" data-page="help"><span>?</span> Support & Hilfe</button>
+    <div class="sidebar-bottom">
+      <div class="small-kicker">NOVALAB NETWORK</div>
+      <p>Deine Ideen. Deine Projekte. Dein Portfolio.</p>
+      <a target="_blank" rel="noopener noreferrer" class="discord-link" href="https://discord.gg/livery-lab">♧ NovaLab Discord ↗</a>
+      <a class="network-link" href="https://akraniss05.github.io/Grafik-Web-NovaLab/" title="NovaLab Grafik Studio">↗ Grafik Studio</a>
+    </div>
+    <small class="credit">Made with 💙 by NyxAtheris</small>
+  </aside>
+  <div class="main-shell">
+    <header class="topbar">
+      <button id="menuToggle" class="icon-button mobile-menu" aria-label="Menü öffnen">☰</button>
+      <div class="top-location"><span>NovaLab /</span> <strong id="currentPage">Übersicht</strong></div>
+      <span class="saved-pill" id="savedStatus" aria-live="polite">● Lokal gespeichert</span>
+      <div class="top-actions">
+        <button class="button subtle" id="quickPreview" type="button">◉ <span class="desktop-label">Vorschau</span></button>
+        <button class="button primary" id="newProjectBtn" type="button">＋ <span>Neues Portfolio</span></button>
+      </div>
+    </header>
+    <main class="main-content" id="mainContent">
+      <section id="page-home" class="page active">
+        <div class="hero">
+          <span class="eyebrow">✦ THE NOVALAB CREATIVE EXPERIENCE</span>
+          <h1>Deine Projekte.<br><em>Dein Auftritt.</em></h1>
+          <p>Erstelle beeindruckende Portfolios – ohne Code, ohne Abo, ohne Registrierung. Gestalte deine eigene Website mit professionellen Vorlagen und teile sie mit der Welt.</p>
+          <div class="hero-actions"><button class="button primary big" data-action="new">＋ Portfolio erstellen</button><button class="button subtle big" data-page="templates">Vorlagen entdecken ↗</button></div>
+          <div class="hero-shapes" aria-hidden="true"><span>✦</span><span>◈</span></div>
+        </div>
+        <div class="section-heading"><div><span class="eyebrow">DEIN WORKSPACE</span><h2>Willkommen zurück</h2><p>Setze dein Design fort oder starte etwas Neues.</p></div><button class="link-button" data-page="projects">Alle Projekte →</button></div>
+        <div class="stats"><article><strong id="statProjects">0</strong><span>Meine Portfolios</span></article><article><strong>6</strong><span>Designvorlagen</span></article><article><strong>∞</strong><span>Kreative Möglichkeiten</span></article></div>
+        <div id="recentProjects" class="project-grid"></div>
+        <div class="section-heading"><div><span class="eyebrow">INSPIRATION</span><h2>Starte mit einer Vorlage</h2></div></div>
+        <div id="homeTemplates" class="template-grid"></div>
+      </section>
+      <section id="page-projects" class="page">
+        <div class="page-heading"><span class="eyebrow">DEINE KREATIONEN</span><h1>Meine Portfolios</h1><p>Alle Projekte werden nur auf diesem Gerät gespeichert. Sichere deine Arbeiten regelmäßig als JSON-Datei.</p><div class="page-actions"><button class="button primary" data-action="new">＋ Neues Portfolio</button><button class="button subtle" data-action="import">↑ Projektdatei importieren</button></div></div>
+        <div id="projectList" class="project-grid"></div>
+      </section>
+      <section id="page-templates" class="page">
+        <div class="page-heading"><span class="eyebrow">VORLAGEN-BIBLIOTHEK</span><h1>Finde deinen Stil.</h1><p>Sechs fertige Designs für Developer, Designer, Gamer, Musiker, Bewerbungen und futuristische Profile.</p></div>
+        <div id="allTemplates" class="template-grid"></div>
+      </section>
+      <section id="page-editor" class="page editor-page">
+        <div class="editor-header">
+          <div><span class="eyebrow">LIVE PORTFOLIO EDITOR</span><div class="editor-title"><input id="editProjectTitle" aria-label="Projektname" maxlength="80" value="Mein Portfolio"><span class="tag">Entwurf</span></div></div>
+          <div class="editor-actions"><button class="button subtle" id="undoBtn" title="Rückgängig">↶</button><button class="button subtle" id="redoBtn" title="Wiederholen">↷</button><button class="button subtle" data-action="export-json">JSON</button><button class="button primary" data-action="export-html">↓ Website exportieren</button></div>
+        </div>
+        <div class="editor-layout">
+          <aside class="editor-panel toolbox" aria-label="Bausteine">
+            <div class="panel-heading"><h3>Bausteine</h3><small>Zum Einfügen antippen</small></div>
+            <div id="blockPalette" class="block-palette"></div>
+            <div class="panel-heading border-top"><h3>Design</h3></div>
+            <button class="panel-link" data-inspector="theme">☷ Farben & Hintergründe <span>›</span></button>
+            <button class="panel-link" data-inspector="details">✎ Profilinformationen <span>›</span></button>
+            <button class="panel-link" data-inspector="settings">⚙ Layout & Effekte <span>›</span></button>
+          </aside>
+          <div class="editor-center">
+            <div class="canvas-bar"><div class="device-switch"><button class="selected" data-device="desktop">▣ Desktop</button><button data-device="tablet">▥ Tablet</button><button data-device="mobile">▯ Mobile</button></div><span id="blockCounter">0 Bausteine</span><button class="button tiny subtle" id="previewFullscreen">↗ Vorschau</button></div>
+            <div class="canvas-stage" id="canvasStage"><div class="portfolio-canvas desktop" id="portfolioCanvas"></div></div>
+            <div class="canvas-note">↕ Blöcke mit dem Griff ziehen oder über ↑ ↓ sortieren. Änderungen werden automatisch lokal gespeichert.</div>
+          </div>
+          <aside class="editor-panel inspector" aria-label="Eigenschaften">
+            <div class="panel-heading"><h3 id="inspectorTitle">Design-Einstellungen</h3><small id="inspectorSubtitle">Passe dein Portfolio an.</small></div>
+            <div class="inspector-scroll" id="inspectorContent"></div>
+          </aside>
+        </div>
+      </section>
+      <section id="page-settings" class="page">
+        <div class="page-heading"><span class="eyebrow">PERSÖNLICHER WORKSPACE</span><h1>Einstellungen</h1><p>Alles bleibt unter deiner Kontrolle. Es werden keine Projekte automatisch an einen Server übertragen.</p></div>
+        <div class="settings-grid">
+          <article class="surface-card"><h3>Datenschutz & Speicherung</h3><p>Deine Entwürfe liegen ausschließlich in deinem Browser. Falls du Browserdaten löschst oder das Gerät wechselst, brauchst du ein JSON-Backup.</p><button class="button subtle" data-action="export-json">Aktuelles Projekt sichern</button></article>
+          <article class="surface-card"><h3>Projektdatei laden</h3><p>Importiere ein zuvor exportiertes NovaLab-Portfolio und bearbeite es auf diesem Gerät weiter.</p><button class="button subtle" data-action="import">↑ JSON importieren</button></article>
+          <article class="surface-card"><h3>Editor & Darstellung</h3><p>Wähle eine Vorlage und verändere Farben, Schrift, Hintergrund, Effekte und Abschnittsreihenfolge ganz individuell.</p><button class="button subtle" data-page="editor">Editor öffnen →</button></article>
+          <article class="surface-card"><h3>Community</h3><p>Zeige dein exportiertes Portfolio auf Discord und erhalte Feedback von anderen Creatorn.</p><a class="button subtle" href="https://discord.gg/livery-lab" target="_blank" rel="noopener noreferrer">Zum Discord ↗</a></article>
+        </div>
+      </section>
+      <section id="page-help" class="page">
+        <div class="page-heading"><span class="eyebrow">SUPPORT & ANLEITUNGEN</span><h1>Wir helfen dir.</h1><p>Antworten zu den wichtigsten Funktionen des Editors.</p></div>
+        <div class="faq">
+          <details open><summary>Wie erstelle ich mein Portfolio?</summary><p>Klicke auf „Neues Portfolio“, wähle eine Vorlage und bearbeite im Editor einzelne Bausteine über die rechte Leiste.</p></details>
+          <details><summary>Wie kann ich Bilder einfügen?</summary><p>Füge einen Galerie- oder Hero-Baustein hinzu. Über das Bildfeld kannst du eigene JPG-, PNG- oder WebP-Dateien hochladen. Bilder werden im Browser verkleinert.</p></details>
+          <details><summary>Wie veröffentliche ich mein Portfolio kostenlos?</summary><p>Exportiere deine Website als ZIP, entpacke sie und lade die darin enthaltene index.html auf ein neues GitHub-Pages-Repository. Die Website ist selbstständig lauffähig.</p></details>
+          <details><summary>Wo werden meine Daten gespeichert?</summary><p>In deinem Browser (IndexedDB), nicht in einer Cloud. Du kannst deine Projekte mit „JSON“ sichern und wieder importieren.</p></details>
+          <details><summary>Kann ich Discord verwenden?</summary><p>Ja, über Social-Links und einen Discord-Button. Eine Anmeldung mit Discord und automatische Bot-Befehle benötigen später ein sicheres Backend und gehören nicht zum Browser-MVP.</p></details>
+          <details><summary>Funktioniert der Builder auf dem Handy?</summary><p>Ja. Du kannst Elemente antippen, editieren und über Auf/Ab verschieben. Die Desktop-Vorschau zeigt mehr Inhalt gleichzeitig.</p></details>
+        </div>
+        <div class="support-card"><h3>Noch eine Frage oder einen Fehler gefunden?</h3><p>Meldefehler direkt auf GitHub oder besuche unseren Discord-Server. Bitte poste keine Passwörter oder privaten Daten in öffentlichen Issues.</p><a target="_blank" rel="noopener noreferrer" class="button primary" href="https://github.com/akraniss05/portfolio/issues/new">Fehler melden ↗</a><a target="_blank" rel="noopener noreferrer" class="button subtle" href="https://discord.gg/livery-lab">Discord öffnen ↗</a></div>
+      </section>
+    </main>
+    <footer>NovaLab Portfolio Builder <span>·</span> Kostenloser Creator-Editor <span>·</span> Made with 💙 by NyxAtheris</footer>
+  </div>
+</div>
+<input type="file" id="projectImport" accept=".json,application/json" hidden>
+<input type="file" id="imageUpload" accept="image/png,image/jpeg,image/webp" hidden>
+<dialog id="newProjectDialog"><form method="dialog" id="createProjectForm"><div class="dialog-header"><span class="eyebrow">NEUES PROJEKT</span><button type="button" class="icon-button" data-close>✕</button></div><h2>Starte deine Reise.</h2><p>Wähle einen Namen und ein Design. Du kannst später alles anpassen.</p><label>Projektname<input id="newProjectName" maxlength="80" required placeholder="Mein Portfolio"></label><label>Designvorlage<select id="newProjectTemplate"></select></label><div class="dialog-actions"><button type="button" class="button subtle" data-close>Abbrechen</button><button type="submit" class="button primary">Portfolio erstellen →</button></div></form></dialog>
+<dialog id="previewDialog"><div class="preview-dialog-top"><strong>Portfolio-Vorschau</strong><button class="icon-button" data-close aria-label="Schließen">✕</button></div><div id="fullPreview" class="full-preview"></div><div class="preview-dialog-bottom"><button class="button primary" data-action="export-html">↓ Website herunterladen</button><button class="button subtle" data-close>Schließen</button></div></dialog>
+<div id="toast" role="status" aria-live="polite"></div>
+<div id="mobileBackdrop" hidden></div>
+</body>
+</html>

@@ -1,0 +1,14 @@
+const fs=require('node:fs');
+const assert=require('node:assert/strict');
+const html=fs.readFileSync('index.html','utf8');
+const js=fs.readFileSync('app.js','utf8');
+const css=fs.readFileSync('styles.css','utf8');
+const ids=['app','page-home','page-projects','page-templates','page-editor','page-settings','page-help','portfolioCanvas','inspectorContent','blockPalette','imageUpload','projectImport','newProjectDialog','previewDialog','createProjectForm','projectList','allTemplates','fullPreview'];
+for(const id of ids)assert.match(html,new RegExp('id="'+id+'"'),id+' missing');
+for(const key of ['developer','creative','gamer','minimal','music','futuristic'])assert(js.includes('id:"'+key+'"'),'template '+key+' missing');
+for(const key of ['hero','about','projects','skills','experience','gallery','socials','contact','quote','divider'])assert(js.includes(' '+key+':()=>('),'block '+key+' missing');
+for(const f of ['function exportJSON','function zipFiles','function exportHTML','function importFile','function normalizeProject','function renderPortfolio','function fileToImage','function openDB','function undo','function redo'])assert(js.includes(f),'feature '+f+' missing');
+assert(!html.includes('https://cdn.'),'MVP should not rely on external CDNs');
+assert(css.includes('@media(max-width:560px)'),'mobile styles missing');
+assert(css.includes('prefers-reduced-motion'),'reduced motion missing');
+console.log('NovaLab Portfolio Builder: static smoke checks passed');

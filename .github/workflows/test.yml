@@ -1,0 +1,29 @@
+name: Test NovaLab Portfolio
+on:
+  push:
+    branches: [main]
+    paths:
+      - '*.html'
+      - '*.css'
+      - '*.js'
+      - 'tests/**'
+      - '.github/workflows/test.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Validate JavaScript
+        run: node --check app.js
+      - name: Check editor assets
+        run: node tests/portfolio-smoke.cjs
+      - name: Install test dependency
+        run: npm install --no-save --ignore-scripts --no-package-lock jsdom@26.1.0
+      - name: Test editor interactions and exports
+        run: node tests/portfolio-runtime.cjs
